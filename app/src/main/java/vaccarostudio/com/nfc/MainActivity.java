@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         this.llContainer.addView(buildTitle("Tech"));
         this.llContainer.addView(buildText(tech));
 
-        //readNfcA(tag);
+        readNfcA(tag);
         mTagcomm=IsoDep.get(tag);
         test();
     }
@@ -127,10 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void readNfcA(Tag tag){
-        NfcA tagcomm= NfcA.get(tag);
-        Log.d("TAG",""+tagcomm.getSak());
+
 
         try{
+            NfcA tagcomm= NfcA.get(tag);
+            Log.d("TAG",""+tagcomm.getSak());
+            
             tagcomm.connect();
             Short s = tagcomm.getSak();
             byte[] a = tagcomm.getAtqa();
@@ -190,9 +192,15 @@ public class MainActivity extends AppCompatActivity {
             this.llContainer.addView(buildTitle("PinTry"));
             this.llContainer.addView(buildText( String.valueOf(mCard.getLeftPinTry())));
 
+            this.llContainer.addView(buildTitle("Track1"));
+            this.llContainer.addView(buildText( mCard.track1 ) );
+
+            this.llContainer.addView(buildTitle("Track2"));
+            this.llContainer.addView(buildText( mCard.track2 ) );
+
 
             mTagcomm.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -210,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar.LayoutParams lparams = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         TextView tv=new TextView(this);
+        tv.setSelected(true);
+        tv.setTextIsSelectable(true);
         tv.setLayoutParams(lparams);
         tv.setText(text);
         return tv;
